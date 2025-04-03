@@ -36,6 +36,9 @@ interface GrammarEntry {
 }
 
 const grammar: { [index: string]: GrammarEntry } = {
+  beyoncé: { person: "Beyoncé Giselle Knowles-Carter" },
+  rihanna: { person: "Robyn Rihanna Fenty" },
+  "taylor swift": { person: "Taylor Alison Swift" },
   vlad: { person: "Vladislav Maraev" },
   aya: { person: "Nayat Astaiza Soriano" },
   victoria: { person: "Victoria Daniilidou" },
@@ -94,6 +97,10 @@ function IntentWhoIsX(intent: string) {
   return intent == 'who is X'
 }
 
+function IntentMeeting(intent: string) {
+  return intent == 'create a meeting'
+}
+
 function isNoReply(utterance: string) {
   return YNreply.no.includes(utterance);
 }
@@ -146,6 +153,7 @@ const dmMachine = setup({
     person_reply: null,
     day_reply: null,
     time_reply: null,
+    celebrity_reply: null,
 
   }),
   id: 'DM',
@@ -189,7 +197,8 @@ const dmMachine = setup({
               type: 'history',
             },
             Prompt: {
-              entry: { type: "spst.speak", params: { utterance: `Hi. How can I help you?` } },
+              entry: { type: "spst.speak", params: { utterance: `Hi, welcome! I can create an appointment for you or give you some information about celebrities.
+                 How can I help you?` } },
               on: { SPEAK_COMPLETE: "Ask" },
             },
             Ask: { 
@@ -211,7 +220,7 @@ const dmMachine = setup({
           entry: {
             type: "spst.speak",
             params: ({ context }) => ({ 
-              utterance: ` ${context.lastResult!.topIntent == 'who is X' || context.lastResult!.topIntent == 'create a meeting' ?
+              utterance: ` ${IntentWhoIsX(context.lastResult!.topIntent) || IntentMeeting(context.lastResult!.topIntent) ?
                 "Ok" : "Sorry, I can't help you with that. Come back again when you want to create an appointment or to get some information about a celebrity."
               }`,
             }),
@@ -219,11 +228,11 @@ const dmMachine = setup({
           on: { SPEAK_COMPLETE:[ 
             {
               target: "WhoIsX",
-              guard: ({ context }) => (context.lastResult!.topIntent == 'who is X'),
+              guard: ({ context }) => (IntentWhoIsX(context.lastResult!.topIntent)),
             },
             {
               target: "CreateAMeeting",
-              guard: ({ context }) => (context.lastResult!.topIntent == 'create a meeting'),
+              guard: ({ context }) => (IntentMeeting(context.lastResult!.topIntent)),
             },
             { target: "Done" },
           ],
@@ -231,14 +240,70 @@ const dmMachine = setup({
           },
         },
         WhoIsX: {
-          entry: {
-            type: "spst.speak",
-            params: ({ context }) => ({ 
-              utterance: `Who do you want to get information about?`
-            }),
+          id: "WhoIsX",
+          initial: "Prompt",
+          on: {
+            LISTEN_COMPLETE: [ 
+              {
+                target: ".CheckCelebrity",
+                  guard: ({ context }) => !!context.celebrity_reply,
+              },
+              { target: "#DM.NoInput" },                                       
+            ],
           },
-          on: { SPEAK_COMPLETE:
-            { target: "#DM.Main.Done" },
+          states:{
+            Prompt: {
+              entry: {
+                type: "spst.speak",
+                params: { 
+                  utterance: `Who do you want to get information about?`
+                },
+              },
+              on: { SPEAK_COMPLETE: "Ask" },
+            },
+            Ask: {
+              entry: { type: "spst.listen.nlu" },
+              on: {
+                RECOGNISED: { 
+                  actions: assign(({ event }) => { 
+                    return { celebrity_reply: event.nluValue.entities[0].text }; 
+                  }),                                             
+                },
+                ASR_NOINPUT: { 
+                  actions: assign({ celebrity_reply: null }),
+                },
+              },
+            },
+            CheckCelebrity: {
+              entry: {
+                type: "spst.speak",
+                params: ({ context }) => ({
+                  utterance: ` ${
+                    isInGrammar(context.celebrity_reply!) && getPerson(context.celebrity_reply!) != undefined ? 
+                    "Ok, let me see." : `I'm sorry but ${context.celebrity_reply!} is not in my database`}`
+                }),
+              },
+              on: { SPEAK_COMPLETE: 
+                [ 
+                  {
+                    target: "Reply",
+                    guard: ({ context }) => 
+                      
+                    isInGrammar(context.celebrity_reply!) && getPerson(context.celebrity_reply!) != undefined,
+                  },
+                  { target: "Prompt" },
+                ],
+              },
+            },
+            Reply: {
+              entry: {
+                type: "spst.speak",
+                params: ({ context }) => ({
+                  utterance: `${context.celebrity_reply!} is ${getPerson(context.celebrity_reply!)}`
+                }),
+              },
+              on: { SPEAK_COMPLETE: "#DM.Main.Done" }
+            }
           },
         },
         CreateAMeeting: {

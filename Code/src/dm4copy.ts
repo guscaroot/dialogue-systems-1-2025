@@ -344,8 +344,7 @@ const dmMachine = setup({
                   on: {
                     RECOGNISED: { 
                       actions: assign(({ event }) => { 
-                        return { person_reply: event.nluValue.entities[0].text === "person,
-                          dayweek" }; 
+                        return { person_reply: event.nluValue.entities[0].text  }; 
                       }),                                             
                     },
                     ASR_NOINPUT: { 
