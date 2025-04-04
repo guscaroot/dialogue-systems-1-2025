@@ -29,69 +29,33 @@ const settings: Settings = {
   ttsDefaultVoice: "en-US-DavisNeural",
 };
 
-interface GrammarEntry {
-  person?: string;
-  day?: string;
-  time?: string;
-}
-
-const grammar: { [index: string]: GrammarEntry } = {
-  beyoncé: { person: "Beyoncé Giselle Knowles-Carter" },
-  rihanna: { person: "Robyn Rihanna Fenty" },
-  "taylor swift": { person: "Taylor Alison Swift" },
-  vlad: { person: "Vladislav Maraev" },
-  aya: { person: "Nayat Astaiza Soriano" },
-  victoria: { person: "Victoria Daniilidou" },
-  staffan: { person: "Staffan Larsson" }, stephan: { person: "Staffan Larsson" }, stefan: { person: "Staffan Larsson" },
-  chris: { person: "Christine Howes" },
-  eleni: { person: "Eleni Gregoromichelaki" },
-  gerlof: { person: "Gerlof Bouma" }, gerloff: { person: "Gerlof Bouma" }, guerlov: { person: "Gerlof Bouma" },
-  shafqat: { person: "Shafqat Mumtaz Virk" },
-  sharid: { person: "Sharid Loáiciga" }, shahrid: { person: "Sharid Loáiciga" }, shahid: { person: "Sharid Loáiciga" },
-  maria: { person: "Maria Irena Szawerna" },
-  monday: { day: "Monday" }, "on monday": { day: "Monday" },
-  tuesday: { day: "Tuesday" }, "on tuesday": { day: "Tuesday" },
-  wednesday: { day: "Wednesday" }, "on wednesday": { day: "Wednesday" },
-  thursday: { day: "Thursday" }, "on thursday": { day: "Thursday" },
-  friday: { day: "Friday"}, "on friday": { day: "Friday"},
-  "8": { time: "08:00 am" }, "8:00": { time: "08:00 am" }, "at 8:00": { time: "08:00 am" },
-  "9": { time: "09:00 am" }, "9:00": { time: "09:00 am" }, "at 9:00": { time: "09:00 am" },
-  "10": { time: "10:00 am" }, "10:00": { time: "10:00 am" }, "at 10:00": { time: "10:00 am" },
-  "11": { time: "11:00 am" }, "11:00": { time: "11:00 am" }, "at 11:00": { time: "11:00 am" },
-  "12": { time: "12:00 pm" }, "12:00": { time: "12:00 pm" }, "at 12:00": { time: "12:00 pm" },
-  "1": { time: "01:00 pm" }, "1:00": { time: "01:00 pm" }, "at 1:00": { time: "01:00 pm" },
-  "13": { time: "01:00 pm" }, "1300": { time: "01:00 pm" }, "1300 hours": { time: "01:00 pm" },
-  "at 13": { time: "01:00 pm" }, "at 1300": { time: "01:00 pm" }, "at 1300 hours": { time: "01:00 pm" },
-  "2": { time: "02:00 pm" }, "2:00": { time: "02:00 pm" }, "at 2:00": { time: "02:00 pm" },
-  "14": { time: "02:00 pm" }, "1400": { time: "02:00 pm" }, "1400 hours": { time: "02:00 pm" },
-  "at 14": { time: "02:00 pm" }, "at 1400": { time: "02:00 pm" }, "at 1400 hours": { time: "02:00 pm" },
-  "3": { time: "03:00 pm" }, "3:00": { time: "03:00 pm" }, "at 3:00": { time: "03:00 pm" },
-  "15": { time: "03:00 pm" }, "1500": { time: "03:00 pm" }, "1500 hours": { time: "03:00 pm" },
-  "at 15": { time: "03:00 pm" }, "at 1500": { time: "03:00 pm" }, "at 1500 hours": { time: "03:00 pm" },
-  "4": { time: "04:00 pm" }, "4:00": { time: "04:00 pm" }, "at 4:00": { time: "04:00 pm" },
-  "16": { time: "04:00 pm" }, "1600": { time: "04:00 pm" }, "1600 hours": { time: "04:00 pm" },
-  "at 16": { time: "04:00 pm" }, "at 1600": { time: "04:00 pm" }, "at 1600 hours": { time: "04:00 pm" },
-  "5": { time: "05:00 pm" }, "5:00": { time: "05:00 pm" }, "at 5:00": { time: "05:00 pm" },
-  "17": { time: "05:00 pm" }, "1700": { time: "05:00 pm" }, "1700 hours": { time: "05:00 pm" },
-  "at 17": { time: "05:00 pm" }, "at 1700": { time: "05:00 pm" }, "at 1700 hours": { time: "05:00 pm" },
+interface info { info: string }
+/* source used for information about celebrities: Wikipedia */
+const celebrities: { [name: string]: info } = {
+  beyoncé: { info: `Beyoncé Giselle Knowles-Carter, known as Beyoncé, was born September 4, 1981.
+    She is an American singer, songwriter, actress and businesswoman. She has had a significant impact on the music industry and is known for her vocal ability, musical versatility, live performances, and culturally important works.`},
+  rihanna: { info: `Robyn Rihanna Fenty, known as Rihanna, was born February 20, 1988.
+    She is a Barbadian singer, businesswoman, and actress. Rihanna is one of the best-selling recording artists of all time, with sales estimated at 250 million units globally.` },
+  "taylor swift": { info:`Taylor Alison Swift was born December 13, 1989. She is an American singer-songwriter. Known for her autobiographical songwriting, artistic versatility, and cultural impact, Swift is one of the world's best-selling music artists. She is also the highest-grossing touring artist, the richest female musician, and the first billionaire with music as the primary source of income.` },
+  "jennifer lopez": {info: `Jennifer Lynn Lopez, also known as J.Lo, was born July 24, 1969.
+    She is an American singer, songwriter, actress, dancer and businesswoman. Lopez is regarded as one of the most influential Latin entertainers of her time, credited with breaking barriers for Latino Americans in Hollywood and helping propel the Latin pop movement in music. She is also noted for her impact on popular culture through fashion, branding, and shifting mainstream beauty standards.`},
+  "anne frank": {info: `Annelies Marie Frank was born 12 June 1929 and died February or March 1945.
+    She was a German-born Jewish girl who kept a diary documenting her life in hiding amid Nazi persecution during the German occupation of the Netherlands. A celebrated diarist, Frank described everyday life from her family's hiding place in an Amsterdam attic. She gained fame posthumously and became one of the most-discussed Jewish victims of the Holocaust with the 1947 publication of The Diary of a Young Girl, which documents her life in hiding from 1942 to 1944. It is one of the world's best-known books and has been the basis for several plays and films.`},
+  "marie curie": {info: `Maria Salomea Skłodowska-Curie was born 7 November 1867 and died 4 July 1934.
+    She was a Polish and naturalised-French physicist and chemist who conducted pioneering research on radioactivity. She was the first woman to win a Nobel Prize, the first person to win a Nobel Prize twice, and the only person to win a Nobel Prize in two scientific fields. Her husband, Pierre Curie, was a co-winner of her first Nobel Prize, making them the first married couple to win the Nobel Prize and launching the Curie family legacy of five Nobel Prizes. She was, in 1906, the first woman to become a professor at the University of Paris.`},
+  "frida kahlo": {info: `Magdalena Carmen Frida Kahlo y Calderón was born 6 July 1907 and died 13 July 1954.
+    She was a Mexican painter known for her many portraits, self-portraits, and works inspired by the nature and artifacts of Mexico. Inspired by the country's popular culture, she employed a naïve folk art style to explore questions of identity, postcolonialism, gender, class, and race in Mexican society. Her paintings often had strong autobiographical elements and mixed realism with fantasy. In addition to belonging to the post-revolutionary Mexicayotl movement, which sought to define a Mexican identity, Kahlo has been described as a surrealist or magical realist. She is also known for painting about her experience of chronic pain.`},
+  "margaret thatcher": {info: `Margaret Hilda Thatcher, Baroness Thatcher, was born 13 October 1925 an died 8 April 2013.
+    She was a British stateswoman and Conservative politician who served as Prime Minister of the United Kingdom from 1979 to 1990 and Leader of the Conservative Party from 1975 to 1990. She was the longest-serving British prime minister of the 20th century and the first woman to hold the position. As prime minister, she implemented policies that came to be known as Thatcherism. A Soviet journalist dubbed her the "Iron Lady", a nickname that became associated with her uncompromising politics and leadership style.`},
+  "gladys west": {info: `Gladys Mae West was born October 27, 1930.
+    She is an American mathematician. She is known for her contributions to mathematical modeling of the shape of the Earth, and her work on the development of satellite geodesy models, that were later incorporated into the Global Positioning System (GPS). West was inducted into the United States Air Force Hall of Fame in 2018. West was awarded the Webby Lifetime Achievement Award for the development of satellite geodesy models.`},
+  "jacinda ardern": {info: `Dame Jacinda Kate Laurell Ardern was born 26 July 1980.
+    She is a former New Zealand politician, who served as the 40th prime minister of New Zealand and leader of the Labour Party from 2017 to 2023. She was a member of Parliament (MP) as a list MP from 2008 to 2017 and for Mount Albert from 2017 to 2023.`},
+  "astrid lindgren": {info: `Astrid Anna Emilia Lindgren was born 14 November 1907 and died 28 January 2002.
+    She was a Swedish writer of fiction and screenplays. She is best known for several children's book series and for the children's fantasy novels Mio, My Son; Ronia the Robber's Daughter; and The Brothers Lionheart. Lindgren wrote more than 30 books for children, and had by 2010 sold roughly 167 million books worldwide. In 1994, she was awarded the Right Livelihood Award for "her unique authorship dedicated to the rights of children and respect for their individuality". Her opposition to corporal punishment of children resulted in the world's first law on the matter in 1979, while her campaigning for animal welfare led to a new law, Lex Lindgren, in time for her 80th birthday.`},
+  "coco chanel": {info: `Gabrielle Bonheur "Coco" Chanel was born 19 August 1883 and died 10 January 1971.
+    She was a French fashion designer and businesswoman. The founder and namesake of the Chanel brand, she was credited in the post-World War I era with popularising a sporty, casual chic as the feminine standard of style. She is the only fashion designer listed on Time magazine's list of the 100 most influential people of the 20th century. A prolific fashion creator, Chanel extended her influence beyond couture clothing into jewellery, handbags, and fragrance. Her signature scent, Chanel No. 5, has become an iconic product, and Chanel herself designed her famed interlocked-CC monogram, which has been in use since the 1920s`},
 };
-
-const YNreply: { yes: string[], no: string[] } = {
-  yes: ["Yes", "OK", "Yeah", "Yep", "Correct", "Right", "Alright","All right", "True", "Of course", 
-        "Sure", "Exactly", "Indeed","I think so", "Yes, I do", "Yes, please"],
-  no: ["No", "Nope", "Not now", "Not at all", "Uncorrect", "Wrong", "False", "No way", 
-        "Of course not", "Certainly not", "I don't think so", "No, I don't", "No thank you", "Thanks, but no"]
-}
-
-const greetings: string[] = ["Hi", "Hello", "Hey", "Good morning", "Good afternoon", "Good evening", "Thanks", "Thank you"]
-
-function isInGrammar(utterance: string) {
-  return (utterance.toLowerCase() in grammar);
-}
-
-function isYesReply(utterance: string) {
-  return YNreply.yes.includes(utterance);
-}
 
 function IntentWhoIsX(intent: string) {
   return intent == 'who is X'
@@ -101,34 +65,62 @@ function IntentMeeting(intent: string) {
   return intent == 'create a meeting'
 }
 
-function isNoReply(utterance: string) {
-  return YNreply.no.includes(utterance);
+function detectedPerson(entities: any) {
+  return !!entities.find( (x: any) => x.category === "Person")
 }
 
-function isGreeting(utterance: string) {
-  return greetings.includes(utterance);
+function getPerson(entities: any) {
+  let obj_person = entities.find( (x: any)=> x.category === "Person")
+  let index_person = entities.indexOf(obj_person)
+  return entities[index_person].text.toLowerCase()
 }
 
-function getPerson(utterance: string) {
-  return (grammar[utterance.toLowerCase()] || {}).person;
+function isInCelebrities(utterance: string) {
+  return (utterance.toLowerCase() in celebrities);
 }
 
-function getDay(utterance:string) {
-  return (grammar[utterance.toLowerCase()] || {}).day;
+function giveInfoPerson(name: string) {
+  return (celebrities[name.toLowerCase()] || {}).info
 }
 
-function getTime(utterance:string) {
-  return (grammar[utterance.toLowerCase()] || {}).time;
+function detectedDay(entities: any) {
+  return !!entities.find( (x: any) => x.category === "day")
+}
+
+function getDay(entities: any) {
+  let obj_day = entities.find( (x: any)=> x.category === "day")
+  let index_day = entities.indexOf(obj_day)
+  return entities[index_day].text.toLowerCase()
+}
+
+function isWeekday(day: string) {
+  return (day !== 'saturday' && day !== 'sunday')
+}
+
+function detectedYes(entities: any) {
+  return !!entities.find( (x: any) => x.category === "yes")
+}
+  
+function detectedNo(entities: any) {
+  return !!entities.find( (x: any) => x.category === "no")
+}
+
+function detectedTime(entities: any) {
+  return !!entities.find( (x: any) => x.category === "time")
+}
+
+function getTime(entities: any) {
+  let obj_time = entities.find( (x: any)=> x.category === "time")
+  let index_time = entities.indexOf(obj_time)
+  return entities[index_time].text.toLowerCase()
 }
 
 const dmMachine = setup({
   types: {
-    /** you might need to extend these */
     context: {} as DMContext,
     events: {} as DMEvents,
   },
   actions: {
-    /** define your actions here */
     "spst.speak": ({ context }, params: { utterance: string }) =>
       context.spstRef.send({
         type: "SPEAK",
@@ -153,7 +145,7 @@ const dmMachine = setup({
     person_reply: null,
     day_reply: null,
     time_reply: null,
-    celebrity_reply: null,
+    yn: null,
 
   }),
   id: 'DM',
@@ -185,30 +177,34 @@ const dmMachine = setup({
           initial: "Prompt",
           on: {
             LISTEN_COMPLETE: [ 
-              {
-                target: "CheckGreeting",
+              { target: "CheckGreeting",
                 guard: ({ context }) => !!context.lastResult,
               },
               { target: "#DM.NoInput" },
             ],
           },
           states: {
-            hist: {
-              type: 'history',
-            },
+            /* hist: {
+              type: 'history', 
+            },*/
             Prompt: {
-              entry: { type: "spst.speak", params: { utterance: `Hi, welcome! I can create an appointment for you or give you some information about celebrities.
-                 How can I help you?` } },
+              entry: { type: "spst.speak", params: { utterance: `Hi, welcome to the voiced services!
+                I can create an appointment for you, or give you some information about famous women.
+                How can I help you?` } },
               on: { SPEAK_COMPLETE: "Ask" },
             },
             Ask: { 
               entry: { type: "spst.listen.nlu" },
               on: {
-                RECOGNISED: { 
-                  actions: assign(({ event }) => { 
-                    return { lastResult: event.nluValue}; 
-                  }),
-                },
+                RECOGNISED: [
+                  { actions: assign(({ event }) => { 
+                    return { lastResult: event.nluValue, person_reply: getPerson(event.nluValue.entities)}; }),
+                    guard: (({ event }) =>  detectedPerson(event.nluValue.entities))                                             
+                  },
+                  { actions: assign(({ event }) => { 
+                    return { lastResult: event.nluValue, person_reply: "notDetected"}; }),
+                  }
+                ],
                 ASR_NOINPUT: { 
                   actions: assign({ lastResult: null }),
                 },
@@ -221,22 +217,23 @@ const dmMachine = setup({
             type: "spst.speak",
             params: ({ context }) => ({ 
               utterance: ` ${IntentWhoIsX(context.lastResult!.topIntent) || IntentMeeting(context.lastResult!.topIntent) ?
-                "Ok" : "Sorry, I can't help you with that. Come back again when you want to create an appointment or to get some information about a celebrity."
-              }`,
-            }),
+                "Ok" : "Sorry, I didn't understand. Do you want to book a meeting or get information about someone?" }`,}),
           },
-          on: { SPEAK_COMPLETE:[ 
-            {
-              target: "WhoIsX",
+          on: { SPEAK_COMPLETE: [
+            { target: "WhoIsX.CheckCelebrity",
+              guard: ({ context }) => (IntentWhoIsX(context.lastResult!.topIntent) && !!context.person_reply && context.person_reply !== 'notDetected'),
+            },
+            { target: "WhoIsX",
               guard: ({ context }) => (IntentWhoIsX(context.lastResult!.topIntent)),
             },
-            {
-              target: "CreateAMeeting",
+            { target: "CreateAMeeting.AskDay",
+              guard: ({ context }) => (IntentMeeting(context.lastResult!.topIntent) && !!context.person_reply && context.person_reply !== 'notDetected'),
+            },
+            { target: "CreateAMeeting",
               guard: ({ context }) => (IntentMeeting(context.lastResult!.topIntent)),
             },
-            { target: "Done" },
-          ],
-          
+            { target: "Greeting.Ask" },
+            ],
           },
         },
         WhoIsX: {
@@ -244,9 +241,8 @@ const dmMachine = setup({
           initial: "Prompt",
           on: {
             LISTEN_COMPLETE: [ 
-              {
-                target: ".CheckCelebrity",
-                  guard: ({ context }) => !!context.celebrity_reply,
+              { target: ".CheckCelebrity",
+                guard: ({ context }) => !!context.person_reply,
               },
               { target: "#DM.NoInput" },                                       
             ],
@@ -254,42 +250,38 @@ const dmMachine = setup({
           states:{
             Prompt: {
               entry: {
-                type: "spst.speak",
-                params: { 
-                  utterance: `Who do you want to get information about?`
-                },
+                type: "spst.speak", params: { utterance: `Who do you want to get information about?`},
               },
               on: { SPEAK_COMPLETE: "Ask" },
             },
             Ask: {
               entry: { type: "spst.listen.nlu" },
               on: {
-                RECOGNISED: { 
-                  actions: assign(({ event }) => { 
-                    return { celebrity_reply: event.nluValue.entities[0].text }; 
-                  }),                                             
-                },
+                RECOGNISED: [
+                  { actions: assign(({ event }) => { 
+                    return { lastResult: event.nluValue, person_reply: getPerson(event.nluValue.entities)}; }),
+                    guard: (({ event }) =>  detectedPerson(event.nluValue.entities))                                             
+                  },
+                  { actions: assign({ person_reply: "notDetected" })}
+                ],
                 ASR_NOINPUT: { 
-                  actions: assign({ celebrity_reply: null }),
+                  actions: assign({ person_reply: null }),
                 },
               },
             },
             CheckCelebrity: {
               entry: {
                 type: "spst.speak",
-                params: ({ context }) => ({
-                  utterance: ` ${
-                    isInGrammar(context.celebrity_reply!) && getPerson(context.celebrity_reply!) != undefined ? 
-                    "Ok, let me see." : `I'm sorry but ${context.celebrity_reply!} is not in my database`}`
-                }),
+                params: ({ context }) => ({ utterance: ` ${
+                    isInCelebrities(context.person_reply!) || context.person_reply !== 'notDetected' ?
+                    isInCelebrities(context.person_reply!) ?
+                    "Let me see." : `I'm sorry but ${context.person_reply!} is not in my database` :
+                    "Sorry, I didn't get the name."}`}),
               },
-              on: { SPEAK_COMPLETE: 
-                [ 
-                  {
-                    target: "Reply",
-                    guard: ({ context }) => 
-                      
-                    isInGrammar(context.celebrity_reply!) && getPerson(context.celebrity_reply!) != undefined,
+              on: {
+                SPEAK_COMPLETE: [ 
+                  { target: "Reply",
+                    guard: ({ context }) => isInCelebrities(context.person_reply!),
                   },
                   { target: "Prompt" },
                 ],
@@ -298,9 +290,9 @@ const dmMachine = setup({
             Reply: {
               entry: {
                 type: "spst.speak",
-                params: ({ context }) => ({
-                  utterance: `${context.celebrity_reply!} is ${getPerson(context.celebrity_reply!)}`
-                }),
+                params: ({ context }) => ({ utterance: `${giveInfoPerson(context.person_reply!)}.
+
+                  Thanks for choosing our services! Come back again if you need some more information or if you want to create an appointment.` }),
               },
               on: { SPEAK_COMPLETE: "#DM.Main.Done" }
             }
@@ -314,8 +306,7 @@ const dmMachine = setup({
               initial: "Prompt",
               on: {
                 LISTEN_COMPLETE: [ 
-                  {
-                    target: "CheckPerson",
+                  { target: "CheckPerson",
                     guard: ({ context }) => !!context.person_reply,
                   },
                   { target: "#DM.NoInput" },
@@ -329,14 +320,16 @@ const dmMachine = setup({
                 Ask: { 
                   entry: { type: "spst.listen.nlu" },
                   on: {
-                    RECOGNISED: { 
-                      actions: assign(({ event }) => { 
-                        return { person_reply: event.nluValue.entities[0].text }; 
-                      }),                                             
-                    },
-                    ASR_NOINPUT: { 
-                      actions: assign({ person_reply: null }),
-                    },
+                    RECOGNISED: [
+                      { actions: assign(({ event }) => { 
+                        return { lastResult: event.nluValue, person_reply: getPerson(event.nluValue.entities)};}),
+                        guard: (({ event }) =>  detectedPerson(event.nluValue.entities))                                             
+                      },
+                      { actions: assign({ person_reply: "notDetected" })}
+                    ],
+                  },
+                  ASR_NOINPUT: { 
+                    actions: assign({ person_reply: null }),
                   },
                 },
               },
@@ -344,18 +337,13 @@ const dmMachine = setup({
             CheckPerson: {
               entry: {
                 type: "spst.speak",
-                params: ({ context }) => ({
-                  utterance: `You just said: ${context.person_reply!}. And this person ${
-                    isInGrammar(context.person_reply!) && getPerson(context.person_reply!) != undefined ? 
-                    "is" : "is not" } available.`,
-                }),
+                params: ({ context }) => ({ utterance: ` ${ context.person_reply !== 'notDetected' ?
+                    `${context.person_reply!}. Well noted` : `Sorry, I didn't get the name.` }`}),
               },
-              on: { SPEAK_COMPLETE: 
-                [ 
-                  {
-                    target: "AskDay",
-                    guard: ({ context }) => 
-                      isInGrammar(context.person_reply!) && getPerson(context.person_reply!) != undefined,
+              on: { 
+                SPEAK_COMPLETE: [ 
+                  { target: "AskDay",
+                    guard: ({ context }) => context.person_reply !== 'notDetected',
                   },
                   { target: "AskPerson" },
                 ],
@@ -365,8 +353,7 @@ const dmMachine = setup({
               initial: "Prompt",
               on: {
                 LISTEN_COMPLETE: [ 
-                  {
-                    target: "CheckDay",
+                  { target: "CheckDay",
                     guard: ({ context }) => !!context.day_reply,
                   },
                   { target: "#DM.NoInput" },
@@ -374,17 +361,19 @@ const dmMachine = setup({
               },
               states: {
                 Prompt: {
-                  entry: { type: "spst.speak", params: { utterance: `On which day is your meeting?` } },
+                  entry: { type: "spst.speak", params: ({ context }) => ({utterance: `Which day do you want to meet with ${context.person_reply}?` }) },
                   on: { SPEAK_COMPLETE: "Ask" }, 
                 },
                 Ask: { 
-                  entry: { type: "spst.listen" },
+                  entry: { type: "spst.listen.nlu" },
                   on: {
-                    RECOGNISED: { 
-                      actions: assign(({ event }) => { 
-                        return { day_reply: event.value }; 
-                      }),
-                    },
+                    RECOGNISED: [
+                      { actions: assign(({ event }) => { 
+                          return { lastResult: event.nluValue, day_reply: getDay(event.nluValue.entities) }; }),
+                        guard: (({ event }) =>  detectedDay(event.nluValue.entities))
+                      },
+                      { actions: assign({ day_reply: "notDetected" })}
+                    ],
                     ASR_NOINPUT: { 
                       actions: assign({ day_reply: null }),
                     },
@@ -395,18 +384,14 @@ const dmMachine = setup({
             CheckDay: {
               entry: {
                 type: "spst.speak",
-                params: ({ context }) => ({
-                  utterance: `You just said: ${context.day_reply![0].utterance}. And you ${
-                    isInGrammar(context.day_reply![0].utterance) && getDay(context.day_reply![0].utterance) != undefined ? 
-                    "can" : "can not" } get an appointment on that day.`,
-                }),
+                params: ({ context }) => ({ utterance: ` ${ context.day_reply !== 'notDetected'?
+                  context.day_reply !== 'notDetected' && isWeekday(context.day_reply!) ? `Right, on ${context.day_reply!} then.` :
+                  "Unfortunately, you can only get an appointment on weekdays." : "Sorry, I didn't get the day." } `,}),
               },
-              on: { SPEAK_COMPLETE:
-                [ 
-                  {
-                    target: "AskWholeDay",
-                    guard: ({ context }) => 
-                      isInGrammar(context.day_reply![0].utterance) && getDay(context.day_reply![0].utterance) != undefined,
+              on: {
+                SPEAK_COMPLETE: [ 
+                  { target: "AskWholeDay",
+                    guard: ({ context }) => context.day_reply !== 'notDetected' && isWeekday(context.day_reply!),
                   },
                   { target: "AskDay" },
                 ]
@@ -416,9 +401,8 @@ const dmMachine = setup({
               initial: "Prompt",
               on: {
                 LISTEN_COMPLETE: [ 
-                  {
-                    target: "CheckWholeDay",
-                    guard: ({ context }) => !!context.lastResult,
+                  { target: "CheckWholeDay",
+                    guard: ({ context }) => !!context.yn,
                   },
                   { target: "#DM.NoInput" },
                 ],
@@ -429,15 +413,21 @@ const dmMachine = setup({
                   on: { SPEAK_COMPLETE: "Ask" }, 
                 },
                 Ask: { 
-                  entry: { type: "spst.listen" },
+                  entry: { type: "spst.listen.nlu" },
                   on: {
-                    RECOGNISED: { 
-                      actions: assign(({ event }) => { 
-                        return { lastResult: event.value }; 
-                      }),
-                    },
+                    RECOGNISED: [
+                      { actions: assign(({ event }) => { 
+                          return { lastResult: event.nluValue, yn: 'yes' }; }),
+                        guard: ({ event }) =>  detectedYes(event.nluValue.entities) && !detectedNo(event.nluValue.entities)
+                      },
+                      { actions: assign(({ event }) => { 
+                          return { lastResult: event.value, yn: 'no' }; }),
+                        guard: ({ event }) =>  detectedNo(event.nluValue.entities) && !detectedYes(event.nluValue.entities)
+                      },
+                      { actions: assign({ yn: 'notDetected' }),},
+                    ],
                     ASR_NOINPUT: { 
-                      actions: assign({ lastResult: null }),
+                      actions: assign({ yn: null }),
                     },
                   },
                 },
@@ -446,22 +436,16 @@ const dmMachine = setup({
             CheckWholeDay: {
               entry: {
                 type: "spst.speak",
-                params: ({ context }) => ({
-                  utterance: ` ${
-                    isYesReply(context.lastResult![0].utterance) || isNoReply(context.lastResult![0].utterance) ?
-                    "Well noted." : `You just said: ${context.lastResult![0].utterance}. Please reply yes or no.` 
-                  } `,
-                }),
+                params: ({ context }) => ({ utterance: ` ${ context.yn === 'yes' || context.yn === 'no' ?
+                    "Ok" : `Sorry, I didn't understand. Please reply yes or no.` } `,}),
               },
-              on: { SPEAK_COMPLETE:
-                [ 
-                  {
-                    target: "ConfirmWholeDay",
-                    guard: ({ context }) => (isYesReply(context.lastResult![0].utterance))
+              on: {
+                SPEAK_COMPLETE: [ 
+                  { target: "ConfirmWholeDay",
+                    guard: ({ context }) => (context.yn === 'yes')
                   },
-                  {
-                    target: "AskTime",
-                    guard: ({ context }) => (isNoReply(context.lastResult![0].utterance))
+                  { target: "AskTime",
+                    guard: ({ context }) => (context.yn === 'no')
                   },
                   { target: "AskWholeDay" },
                 ]
@@ -471,8 +455,7 @@ const dmMachine = setup({
               initial: "Prompt",
               on: {
                 LISTEN_COMPLETE: [ 
-                  {
-                    target: "CheckTime",
+                  { target: "CheckTime",
                     guard: ({ context }) => !!context.time_reply,
                   },
                   { target: "#DM.NoInput" },
@@ -480,17 +463,19 @@ const dmMachine = setup({
               },
               states: {
                 Prompt: {
-                  entry: { type: "spst.speak", params: { utterance: `What time is your meeting?` } },
+                  entry: { type: "spst.speak", params: ({ context }) => ({ utterance: `What time do you want to meet on ${context.day_reply}?` }) },
                   on: { SPEAK_COMPLETE: "Ask" }, 
                 },
                 Ask: { 
-                  entry: { type: "spst.listen" },
+                  entry: { type: "spst.listen.nlu" },
                   on: {
-                    RECOGNISED: { 
-                      actions: assign(({ event }) => { 
-                        return { time_reply: event.value }; 
-                      }),
-                    },
+                    RECOGNISED: [ 
+                      { actions: assign(({ event }) => { 
+                          return { lastResult: event.nluValue, time_reply: getTime(event.nluValue.entities) }; }),
+                        guard: (({ event }) =>  detectedTime(event.nluValue.entities))
+                      },
+                      { actions: assign({ time_reply: "notDetected" }) },
+                    ],
                     ASR_NOINPUT: { 
                       actions: assign({ time_reply: null }),
                     },
@@ -501,18 +486,14 @@ const dmMachine = setup({
             CheckTime: {
               entry: {
                 type: "spst.speak",
-                params: ({ context }) => ({
-                  utterance: `You just said: ${context.time_reply![0].utterance}. And you ${
-                    isInGrammar(context.time_reply![0].utterance) && getTime(context.time_reply![0].utterance) != undefined ? 
-                    "can" : "can not" } get an appointment at this time.`,
+                params: ({ context }) => ({ utterance: `${ context.time_reply !== 'notDetected' ?
+                    `${context.time_reply!}. Understood.` : `Sorry, I didn't get the time.`}`,
                 }),
               },
-              on: { SPEAK_COMPLETE:
-                [ 
-                  {
-                    target: "ConfirmTime",
-                    guard: ({ context }) => 
-                      isInGrammar(context.time_reply![0].utterance) && getTime(context.time_reply![0].utterance) != undefined,
+              on: {
+                SPEAK_COMPLETE: [ 
+                  { target: "ConfirmTime",
+                    guard: ({ context }) => context.time_reply !== 'notDetected',
                   },
                   { target: "AskTime" },
                 ]
@@ -522,9 +503,8 @@ const dmMachine = setup({
               initial: "Prompt",
               on: {
                 LISTEN_COMPLETE: [ 
-                  {
-                    target: "CheckConfirmWholeDay",
-                    guard: ({ context }) => !!context.lastResult,
+                  { target: "CheckConfirmWholeDay",
+                    guard: ({ context }) => !!context.yn,
                   },
                   { target: "#DM.NoInput" },
                 ],
@@ -533,23 +513,28 @@ const dmMachine = setup({
                 Prompt: {
                   entry: { 
                     type: "spst.speak",
-                    params: ({ context }) => ({ 
-                      utterance: `Do you want me to create an appointment with ${getPerson(context.person_reply!)}
-                      on ${getDay(context.day_reply![0].utterance)} for the whole day?`
+                    params: ({ context }) => ({ utterance: `Let's check now. Do you want me to create an appointment with ${
+                      context.person_reply!} on ${context.day_reply!} for the whole day?`
                     })
                   },
                   on: { SPEAK_COMPLETE: "Ask" }, 
                 },
                 Ask: { 
-                  entry: { type: "spst.listen" },
+                  entry: { type: "spst.listen.nlu" },
                   on: {
-                    RECOGNISED: { 
-                      actions: assign(({ event }) => { 
-                        return { lastResult: event.value }; 
-                      }),
-                    },
+                    RECOGNISED: [
+                      { actions: assign(({ event }) => { 
+                          return { lastResult: event.nluValue, yn: 'yes' }; }),
+                        guard: ({ event }) =>  detectedYes(event.nluValue.entities) && !detectedNo(event.nluValue.entities)
+                      },
+                      { actions: assign(({ event }) => { 
+                          return { lastResult: event.value, yn: 'no' }; }),
+                        guard: ({ event }) =>  detectedNo(event.nluValue.entities) && !detectedYes(event.nluValue.entities)
+                      },
+                      { actions: assign({ yn: 'notDetected' }),},
+                    ],
                     ASR_NOINPUT: { 
-                      actions: assign({ lastResult: null }),
+                      actions: assign({ yn: null }),
                     },
                   },
                 },
@@ -558,23 +543,17 @@ const dmMachine = setup({
             CheckConfirmWholeDay: {
               entry: {
                 type: "spst.speak",
-                params: ({ context }) => ({
-                  utterance: ` ${
-                    isYesReply(context.lastResult![0].utterance) || isNoReply(context.lastResult![0].utterance) ? 
-                    isYesReply(context.lastResult![0].utterance) ? "Perfect!" : "Oh, sorry for the confusion." : 
-                    `You just said: ${context.lastResult![0].utterance}. Please reply yes or no.`
-                  } `,
-                }),
+                params: ({ context }) => ({ utterance: ` ${ context.yn === 'yes' || context.yn === 'no' ? 
+                    context.yn === 'yes' ? "Perfect!" : "Oh, sorry for the confusion." : 
+                    `Sorry, I didn't understand your answer. Please reply yes or no.`} `,}),
               },
-              on: { SPEAK_COMPLETE:
-                [ 
-                  {
-                    target: "ConfirmAppointment",
-                    guard: ({ context }) => isYesReply(context.lastResult![0].utterance)
+              on: { 
+                SPEAK_COMPLETE: [ 
+                  { target: "ConfirmAppointment",
+                    guard: ({ context }) => context.yn === 'yes'
                   },
-                  {
-                    target: "AskPerson",
-                    guard: ({ context }) => isNoReply(context.lastResult![0].utterance) 
+                  { target: "AskPerson",
+                    guard: ({ context }) => context.yn === 'no' 
                   },
                   { target: "ConfirmWholeDay" },
                 ]
@@ -584,9 +563,8 @@ const dmMachine = setup({
               initial: "Prompt",
               on: {
                 LISTEN_COMPLETE: [ 
-                  {
-                    target: "CheckConfirmTime",
-                    guard: ({ context }) => !!context.lastResult,
+                  { target: "CheckConfirmTime",
+                    guard: ({ context }) => !!context.yn,
                   },
                   { target: "#DM.NoInput" },
                 ],
@@ -595,23 +573,27 @@ const dmMachine = setup({
                 Prompt: {
                   entry: { 
                     type: "spst.speak",
-                    params: ({ context }) => ({ 
-                      utterance: `Do you want me to create an appointment with ${getPerson(context.person_reply!)} 
-                      on ${getDay(context.day_reply![0].utterance)} at ${getTime(context.time_reply![0].utterance)}?`
-                    }),
+                    params: ({ context }) => ({ utterance: `Let's check now. Do you want me to create an appointment with ${
+                      context.person_reply!} on ${context.day_reply} at ${context.time_reply}?`}),
                   },
                   on: { SPEAK_COMPLETE: "Ask" }, 
                 },
                 Ask: { 
-                  entry: { type: "spst.listen" },
+                  entry: { type: "spst.listen.nlu" },
                   on: {
-                    RECOGNISED: { 
-                      actions: assign(({ event }) => { 
-                        return { lastResult: event.value }; 
-                      }),
-                    },
+                    RECOGNISED: [
+                      { actions: assign(({ event }) => { 
+                          return { lastResult: event.nluValue, yn: 'yes' }; }),
+                        guard: ({ event }) =>  detectedYes(event.nluValue.entities) && !detectedNo(event.nluValue.entities)
+                      },
+                      { actions: assign(({ event }) => { 
+                          return { lastResult: event.value, yn: 'no' }; }),
+                        guard: ({ event }) =>  detectedNo(event.nluValue.entities) && !detectedYes(event.nluValue.entities)
+                      },
+                      { actions: assign({ yn: 'notDetected' }),},
+                    ],
                     ASR_NOINPUT: { 
-                      actions: assign({ lastResult: null }),
+                      actions: assign({ yn: null }),
                     },
                   },
                 },
@@ -620,31 +602,24 @@ const dmMachine = setup({
             CheckConfirmTime: {
               entry: {
                 type: "spst.speak",
-                params: ({ context }) => ({
-                  utterance: ` ${
-                    isYesReply(context.lastResult![0].utterance) || isNoReply(context.lastResult![0].utterance) ?
-                    isYesReply(context.lastResult![0].utterance) ? "Perfect!" : "Oh, sorry for the confusion." : 
-                    `You just said: ${context.lastResult![0].utterance}. Please reply yes or no.`
-                  } `,
-                }),
+                params: ({ context }) => ({ utterance: ` ${ context.yn === 'yes' || context.yn === 'no' ?
+                    context.yn === 'yes' ? "Perfect!" : "Oh, sorry for the confusion." : 
+                    `Sorry I didn't understand your answer. Please reply yes or no.` } `,}),
               },
-              on: { SPEAK_COMPLETE:
-                [ 
-                  {
-                    target: "ConfirmAppointment",
-                    guard: ({ context }) => isYesReply(context.lastResult![0].utterance)
+              on: {
+                SPEAK_COMPLETE: [ 
+                  { target: "ConfirmAppointment",
+                    guard: ({ context }) => context.yn === 'yes'
                   },
-                  {
-                    target: "AskPerson",
-                    guard: ({ context }) => isNoReply(context.lastResult![0].utterance)
+                  { target: "AskPerson",
+                    guard: ({ context }) => context.yn === 'no'
                   },
                   { target: "ConfirmTime" },
                 ]
               },
             },
             ConfirmAppointment: {
-              entry: { type: "spst.speak",
-                  params: { utterance: `Your appointment has been created!` }
+              entry: { type: "spst.speak", params: { utterance: `Your appointment has been created! Thanks for choosing our services!` }
               },
               on: { SPEAK_COMPLETE: "#DM.Main.Done" }, 
             },
